@@ -1,0 +1,16 @@
+{
+  "name": "dead-letters",
+  "version": "1.0.0",
+  "description": "Push dead letter queue items back to whence they came",
+  "repository": "https://github.com/breenie/sqs-resubmit",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "chris@kurl.io",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.2.17",
+    "readline-sync": "^1.2.21"
+  }
+}
