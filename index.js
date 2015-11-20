@@ -15,7 +15,7 @@ var handleMessages = function(source, target) {
         }
 
         var deleted = 0;
-        var messages = data.Messages;
+        var messages = data.Messages || [];
 
         messages.forEach(function(message) {
             if (err) {
@@ -34,20 +34,19 @@ var handleMessages = function(source, target) {
                     return console.error(err, err.stack);
                 }
 
-                sqs.deleteMessage({QueueUrl: source, MessageId: message.ReceiptHandle}, function(err, data) {
+                sqs.deleteMessage({QueueUrl: source, ReceiptHandle: message.ReceiptHandle}, function(err, data) {
                     if (err) {
                         return console.error(err, err.stack);
                     }
 
                     console.log('Removed "' + message.ReceiptHandle + '" from ' + source);
 
-                    deleted++;
+                    if (++deleted === messages.length) {
+                        handleMessages(source, target);
+                    }
                 });
             });
 
-            if (deleted === messages.length) {
-                handleMessages(source, target);
-            }
         });
     });
 };
